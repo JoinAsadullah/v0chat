@@ -1,4 +1,8 @@
-export default function SidePanel() {
+import {auth} from "@/auth"
+
+export default async function SidePanel() {
+    const session = await auth()
+
     return (
         <aside className="">
             <div
@@ -133,7 +137,7 @@ export default function SidePanel() {
                                 d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855"
                             ></path>
                         </svg>
-                        User
+                        {session?.user?.name}
                     </button>
                     <button
                         className="flex w-full gap-x-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-slate-200 focus:outline-none dark:text-slate-200 dark:hover:bg-slate-800"

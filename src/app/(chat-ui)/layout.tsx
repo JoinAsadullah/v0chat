@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SidePanel from "../components/side-panel";
-import PromptInput from "../components/prompt-input";
-import ChatContextProvider from "./chat-context";
+import SidePanel from "@/components/side-panel";
+import PromptInput from "@/components/prompt-input";
+import ChatContextProvider from "@/components/chat-context";
+import {auth, signOut} from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,11 +17,13 @@ export const viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const session = await auth();
   return (
     <html className="" lang="en">
       <ChatContextProvider>
@@ -30,7 +33,7 @@ export default function RootLayout({
             <SidePanel />
           </div>
           <div className="min-h-svh justify-between w-full flex flex-col">
-            {children}
+            {session?.user? children : <div>No user signed in........</div>}
             <div className="w-full pr-[8px]">
               <div className="p-4 w-full md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] mx-auto">
                 <PromptInput />

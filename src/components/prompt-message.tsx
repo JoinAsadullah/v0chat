@@ -1,9 +1,12 @@
 'use client'
-import { useContext, useRef, useEffect, Suspense } from 'react'
-import { ChatContext } from '../app/chat-context'
+import { useContext, useState } from 'react'
+import { ChatContext } from '@/components/chat-context'
+import copy from 'clipboard-copy'
 
 export default function PromptMessage() {
     const { messages } = useContext(ChatContext)
+
+    const [iconStates, setIconStates] = useState({ like: false, dislike: false, copy: false })
 
     return (
         <div
@@ -28,14 +31,14 @@ export default function PromptMessage() {
                     return (
                         <span key={key}>
                             <div className="mb-2 flex w-full flex-row justify-end gap-x-2 text-slate-500">
-                                <button className="hover:text-blue-600">
+                                <button onClick={()=>{setIconStates({ ...iconStates, like: !iconStates.like });iconStates.like==false && iconStates.dislike==true && setIconStates(n=>({ ...n, dislike: false }));}} className={`hover:text-blue-600`}>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-5 w-5"
                                         viewBox="0 0 24 24"
                                         strokeWidth="2"
                                         stroke="currentColor"
-                                        fill="none"
+                                        fill={ iconStates.like?  "currentColor" : "none" }
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                     >
@@ -45,14 +48,17 @@ export default function PromptMessage() {
                                         ></path>
                                     </svg>
                                 </button>
-                                <button className="hover:text-blue-600" type="button">
+                                <button onClick={()=>{
+                                    setIconStates({ ...iconStates, dislike: !iconStates.dislike }); 
+                                    iconStates.like==true && iconStates.dislike==false && setIconStates(n=>({ ...n, like: false }));}
+                                    } className="hover:text-blue-600" type="button">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-5 w-5"
                                         viewBox="0 0 24 24"
                                         strokeWidth="2"
                                         stroke="currentColor"
-                                        fill="none"
+                                        fill={ iconStates.dislike?  "currentColor" : "none" }
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                     >
@@ -62,14 +68,14 @@ export default function PromptMessage() {
                                         ></path>
                                     </svg>
                                 </button>
-                                <button className="hover:text-blue-600" type="button">
+                                <button onClick={()=>{copy(data.content); setIconStates({ ...iconStates, copy: true }); }} className="hover:text-blue-600" type="button">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-5 w-5"
                                         viewBox="0 0 24 24"
                                         strokeWidth="2"
                                         stroke="currentColor"
-                                        fill="none"
+                                        fill={ iconStates.copy?  "currentColor" : "none" }
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                     >

@@ -1,10 +1,11 @@
 'use client'
 import Image from "next/image";
 import { useContext, useRef, useEffect } from 'react'
-import { ChatContext } from '../app/chat-context'
-import PromptMessage from "../components/prompt-message";
+import { ChatContext } from '@/components/chat-context'
+import PromptMessage from "@/components/prompt-message"
 
 export default function Home() {
+
   const { messages } = useContext(ChatContext)
   const ref = useRef<HTMLDivElement>(null)
   

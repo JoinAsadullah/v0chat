@@ -1,7 +1,7 @@
 'use client'
 import { useState, useContext, useRef, useEffect } from "react";
 import Textarea from 'react-textarea-autosize'
-import { ChatContext } from "../app/chat-context";
+import { ChatContext } from "@/components/chat-context";
 import {useChat} from 'ai/react'
 
 
