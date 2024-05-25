@@ -1,6 +1,9 @@
 "use client"
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useChat } from "ai/react";
+import { useRouter } from 'next/router';
+
+
 
 interface DataItem {
     role: "function" | "user" | "assistant" | "data" | "system" | "tool";
@@ -8,6 +11,8 @@ interface DataItem {
     id: string;
     createdAt?: Date;
 }
+
+
 
 const initialData: DataItem[] = [        {
     "content": "where is pakistanPakistan is located in South Asia, bordered by India to the east, Afghanistan and Iran to the west, China to the north, and the Arabian Sea to the south.Pakistan is located in South Asia, bordered by India to the east, Afghanistan and Iran to the west, China to the north, and the Arabian Sea to the south.Pakistan is located in South Asia, bordered by India to the east, Afghanistan and Iran to the west, China to the north, and the Arabian Sea to the south.Pakistan is located in South Asia, bordered by India to the east, Afghanistan and Iran to the west, China to the north, and the Arabian Sea to the south.",
@@ -33,9 +38,10 @@ export const ChatContext = createContext({
 export default function ChatContextProvider({children}: Readonly<{
     children: React.ReactNode;
   }>) {
+    
 
     const { messages, input, handleInputChange, handleSubmit } = useChat(
-        { initialMessages: initialData }
+        { initialMessages: initialData, api : "/api/chat/665245f591818902329c62a7"}
     );
     return (
         <ChatContext.Provider value={{ messages, input, handleInputChange, handleSubmit }}>
