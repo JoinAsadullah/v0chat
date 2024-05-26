@@ -1,7 +1,7 @@
 "use client"
 import { createContext, useEffect, useState } from "react";
 import { useChat } from "ai/react";
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation'
 
 
 
@@ -38,10 +38,11 @@ export const ChatContext = createContext({
 export default function ChatContextProvider({children}: Readonly<{
     children: React.ReactNode;
   }>) {
+    const chatId = usePathname().split('/').pop() || "";
+    console.log(chatId)
     
-
     const { messages, input, handleInputChange, handleSubmit } = useChat(
-        { initialMessages: initialData, api : "/api/chat/665245f591818902329c62a7"}
+        {api : `/api/chat/${chatId}`}
     );
     return (
         <ChatContext.Provider value={{ messages, input, handleInputChange, handleSubmit }}>
