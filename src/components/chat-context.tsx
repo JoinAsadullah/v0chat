@@ -38,8 +38,7 @@ export const ChatContext = createContext({
 export default function ChatContextProvider({children}: Readonly<{
     children: React.ReactNode;
   }>) {
-    const chatId = usePathname().split('/').pop() || "";
-    console.log(chatId)
+    const chatId = usePathname()=="/"? "" : usePathname().split('/').pop();
     
     const { messages, input, handleInputChange, handleSubmit } = useChat(
         {api : `/api/chat/${chatId}`}

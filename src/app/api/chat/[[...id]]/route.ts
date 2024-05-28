@@ -13,22 +13,39 @@ const openai = new OpenAI({
 //export const runtime = 'edge';
 
 export async function POST(req: Request, res: Response) {
-  const url = new URL(req.url);
-  const { messages } = await req.json();
+    const { messages } = await req.json();
+
   const session = await auth();
   if (!session) {
     return new Response('Unauthorized', { status: 401 });
   }
+
+  const url = new URL(req.url);
+  var chatId = url.pathname.split('/').pop() || "";
+  const userId = session.user?.id || "";
+
+
+
+
   if(url.pathname=='/api/chat') {
-    const prompt = messages[messages.length - 1].content;
     const newChat = await prisma.chat.create({
       data: {
-        chat_title: messages[0].content.split(' ').slice(0, 10).join(' '),
-        userId: session.user?.id || ""// Ensure userId is of type string
-        //messages: [] // No need to explicitly specify an empty array
+        chat_title: messages[0].content,
+        userId: userId
       },
     });
+    chatId = newChat.id;
   }
+
+  const recentMessages = await prisma.message.findMany(
+    {
+        where: {
+            chatId: chatId,
+            userId: userId
+        },
+    }
+  )
+
 
   const response = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo-0125',
@@ -57,8 +74,8 @@ export async function POST(req: Request, res: Response) {
       data: {
         prompt: messages[messages.length - 1].content,
         assistant: completion,
-        chatId: url.pathname.split('/').pop() || "",
-        userId: session.user?.id || ""
+        chatId: chatId,
+        userId: userId
       },
     });
 

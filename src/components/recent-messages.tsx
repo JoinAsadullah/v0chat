@@ -1,11 +1,14 @@
 import { PrismaClient } from '@prisma/client'
-import copy from 'clipboard-copy'
 const prisma = new PrismaClient()
 
-
-export default async function Recent() {
-        const messages = await prisma.message.findMany()
-        console.log(messages)
+export default async function Recent({chatId}: {chatId: string}) {
+        const messages = await prisma.message.findMany(
+            {
+                where: {
+                    chatId: chatId
+                },
+            }
+        )
 
 
     return (

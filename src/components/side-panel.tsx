@@ -1,12 +1,17 @@
 import {auth} from "@/auth"
 import { PrismaClient } from '@prisma/client'
+import Link from 'next/link'
 
 const prisma = new PrismaClient()
 
 export default async function SidePanel() {
     const session = await auth()
-    const chats = await prisma.chat.findMany()
-
+    const user = session?.user;
+    const chats = await prisma.chat.findMany({
+        where: {
+            userId: user?.id
+        }
+    });
     function formatDateToReadableString(date: Date): string {
         // Use Intl.DateTimeFormat to format the date
         const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
@@ -44,6 +49,7 @@ export default async function SidePanel() {
                     </h2>
                 </div>
                 <div className="mx-2 mt-8">
+                    <Link href="/">
                     <button
                         className="flex w-full gap-x-4 rounded-lg border border-slate-300 p-4 text-left text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-slate-200 focus:outline-none dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
                     >
@@ -63,16 +69,17 @@ export default async function SidePanel() {
                         </svg>
                         New Chat
                     </button>
+                    </Link>
                 </div>
                 {/* Previous chats container */}
                 <div
                     className="h-1/2 space-y-4 overflow-y-auto border-b border-slate-300 px-2 py-4 dark:border-slate-700"
                 >
                     {chats.map((chat) => (
-                        <a href={`/c/${chat.id}`}
+                        <Link href={`/c/${chat.id}`}
                             key={chat.id}
                         >
-                            <button
+                            <button id={`h${chat.id}`}
                                 className="flex w-full flex-col gap-y-2 rounded-lg px-3 py-2 text-left transition-colors duration-200 hover:bg-slate-200 focus:outline-none dark:hover:bg-slate-800"
                             >
                                 <h1
@@ -82,7 +89,7 @@ export default async function SidePanel() {
                                 </h1>
                                 <p className="text-xs text-slate-500 dark:text-slate-400">{formatDateToReadableString(chat.createdAt)}</p>
                             </button>
-                        </a>
+                        </Link>
                     ))}
 
                 </div>

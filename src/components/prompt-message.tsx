@@ -1,19 +1,27 @@
 'use client'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { ChatContext } from '@/components/chat-context'
 import copy from 'clipboard-copy'
-import Recent from '@/components/recent-messages'
+import { usePathname } from 'next/navigation'
 
 export default function PromptMessage() {
     const { messages } = useContext(ChatContext)
-
+    const chatId = usePathname()=="/"? "" : usePathname().split('/').pop()
     const [iconStates, setIconStates] = useState({ like: false, dislike: false, copy: false })
+
+// functionality to scroll to the bottom of the chat
+    useEffect(() => {
+        const element = document.querySelector(`#h${chatId}`) as HTMLElement;
+        if (element) {
+            element.style.backgroundColor = '#334155';
+        }
+    }, [chatId])
+    
 
     return (
         <div
             className="flex-1 rounded-xl bg-slate-200 p-4 text-sm leading-6 text-slate-900 dark:bg-slate-800 dark:text-slate-300 sm:text-base sm:leading-7"
         >
-            <Recent/> 
             {messages.map((data, key) => {
                 if (data.role === 'user') {
                     return (

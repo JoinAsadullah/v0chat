@@ -5,10 +5,6 @@ import SidePanel from "@/components/side-panel";
 import PromptInput from "@/components/prompt-input";
 import ChatContextProvider from "@/components/chat-context";
 import {auth, signOut} from "@/auth";
-import navigation from "next/navigation";
-
-
-
 
 const inter = Inter({ subsets: ["latin"] });
 

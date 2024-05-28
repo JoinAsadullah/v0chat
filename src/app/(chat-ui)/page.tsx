@@ -1,3 +1,4 @@
+import PromptMessage from "@/components/prompt-message"
 export default function Home() {
     return (
         <div>
