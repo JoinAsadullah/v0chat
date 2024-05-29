@@ -1,7 +1,8 @@
 "use client"
 import { createContext, useEffect, useState } from "react";
 import { useChat } from "ai/react";
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { PrismaClient } from "@prisma/client";
 
 
 
@@ -38,11 +39,35 @@ export const ChatContext = createContext({
 export default function ChatContextProvider({children}: Readonly<{
     children: React.ReactNode;
   }>) {
-    const chatId = usePathname()=="/"? "" : usePathname().split('/').pop();
+    const router = useRouter();
+
+    const prisma = new PrismaClient()
+
     
+    const chatId = usePathname() === "/" ? "" : usePathname().split('/').pop();
+    const pathname = usePathname();
+    useEffect(() => {
+        
+      }, [pathname]);
+
+    async function changeURL() {
+        if (pathname === "/") {
+            const lastChatId = await fetch("/api/id").then((res) => res.text());
+            router.push( `/c/${lastChatId}`);
+        }
+    }
+
+    function onResponse() {
+        changeURL();
+        return void 0;
+    }
+
     const { messages, input, handleInputChange, handleSubmit } = useChat(
-        {api : `/api/chat/${chatId}`}
+        { api: `/api/chat/${chatId}`, onResponse: onResponse, id: chatId },
     );
+
+
+    
     return (
         <ChatContext.Provider value={{ messages, input, handleInputChange, handleSubmit }}>
             {children}

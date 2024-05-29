@@ -10,6 +10,9 @@ export default async function SidePanel() {
     const chats = await prisma.chat.findMany({
         where: {
             userId: user?.id
+        },
+        orderBy: {
+            createdAt: 'desc'
         }
     });
     function formatDateToReadableString(date: Date): string {
@@ -49,7 +52,7 @@ export default async function SidePanel() {
                     </h2>
                 </div>
                 <div className="mx-2 mt-8">
-                    <Link href="/">
+                    <a href="/">
                     <button
                         className="flex w-full gap-x-4 rounded-lg border border-slate-300 p-4 text-left text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-slate-200 focus:outline-none dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
                     >
@@ -69,7 +72,7 @@ export default async function SidePanel() {
                         </svg>
                         New Chat
                     </button>
-                    </Link>
+                    </a>
                 </div>
                 {/* Previous chats container */}
                 <div

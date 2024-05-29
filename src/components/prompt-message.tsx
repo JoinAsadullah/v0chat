@@ -9,11 +9,23 @@ export default function PromptMessage() {
     const chatId = usePathname()=="/"? "" : usePathname().split('/').pop()
     const [iconStates, setIconStates] = useState({ like: false, dislike: false, copy: false })
 
-// functionality to scroll to the bottom of the chat
+// functionality to scroll to bottom of messages
+useEffect(() => {
+    const element = document.querySelector(`#scroll-0`) as HTMLElement;
+    element?.scrollIntoView({ behavior: 'smooth', block: 'end'});
+  }, [messages])
+
+
+// functionality to highlight active state of chat
     useEffect(() => {
         const element = document.querySelector(`#h${chatId}`) as HTMLElement;
         if (element) {
             element.style.backgroundColor = '#334155';
+        }
+        return () => {
+            if (element) {
+                element.style.backgroundColor = '';
+            }
         }
     }, [chatId])
     

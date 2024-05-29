@@ -13,7 +13,7 @@ const openai = new OpenAI({
 //export const runtime = 'edge';
 
 export async function POST(req: Request, res: Response) {
-    const { messages } = await req.json();
+  const { messages } = await req.json();
 
   const session = await auth();
   if (!session) {
@@ -24,7 +24,7 @@ export async function POST(req: Request, res: Response) {
   var chatId = url.pathname.split('/').pop() || "";
   const userId = session.user?.id || "";
 
-
+ console.log(messages)
 
 
   if(url.pathname=='/api/chat') {
@@ -43,15 +43,33 @@ export async function POST(req: Request, res: Response) {
             chatId: chatId,
             userId: userId
         },
+        take: 3,
+        orderBy: {
+          createdAt: 'desc'
+        }
     }
   )
 
+  const formated = recentMessages.reverse().map((message) => {
+    return [
+      {
+        role: "user",
+        content: message.prompt,
+      },
+      {
+        role: "assistant",
+        content: message.assistant,
+      },
+    ];
+  });
+
+  const message = [...formated.flatMap(arr => arr), ...messages].slice(-7);
 
   const response = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo-0125',
 	  max_tokens: 150,
     stream: true,
-    messages,
+    messages:message,
   });
   // Convert the response into a friendly text-stream
   const stream = OpenAIStream(response, {

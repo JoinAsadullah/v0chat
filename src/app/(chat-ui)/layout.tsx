@@ -4,7 +4,7 @@ import "./globals.css";
 import SidePanel from "@/components/side-panel";
 import PromptInput from "@/components/prompt-input";
 import ChatContextProvider from "@/components/chat-context";
-import {auth, signOut} from "@/auth";
+import {auth, signIn} from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,7 +35,7 @@ export default async function RootLayout({
             <SidePanel />
           </div>
           <div className="min-h-svh justify-between w-full flex flex-col">
-            {session?.user? children : <div>No user signed in........</div>}
+            {session?.user? children :<> <div>No user signed in........</div> <a href="/api/auth/signin"><button type="submit">SignIn</button></a></>}
             <div className="w-full pr-[8px]">
               <div className="p-4 w-full md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] mx-auto">
                 <PromptInput />

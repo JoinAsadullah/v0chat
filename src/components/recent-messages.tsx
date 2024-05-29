@@ -1,7 +1,9 @@
 import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+
 
 export default async function Recent({chatId}: {chatId: string}) {
+    const prisma = new PrismaClient()
+
         const messages = await prisma.message.findMany(
             {
                 where: {
@@ -12,7 +14,9 @@ export default async function Recent({chatId}: {chatId: string}) {
 
 
     return (
-        <>
+                <div
+            className="flex-1 rounded-xl bg-slate-200 p-4 text-sm leading-6 text-slate-900 dark:bg-slate-800 dark:text-slate-300 sm:text-base sm:leading-7"
+        >
         {messages.map((message) =>(
             <span key={message.id}>
                 <div className="flex flex-row px-2 py-4 sm:px-4">
@@ -44,6 +48,6 @@ export default async function Recent({chatId}: {chatId: string}) {
 
             </span>
         ))}
-        </>
+        </div>
     ) 
 }
