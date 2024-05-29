@@ -5,9 +5,11 @@ import Link from 'next/link'
 const prisma = new PrismaClient()
 
 export default async function SidePanel() {
+    var chats;
     const session = await auth()
     const user = session?.user;
-    const chats = await prisma.chat.findMany({
+    if(session?.user) {
+        chats = await prisma.chat.findMany({
         where: {
             userId: user?.id
         },
@@ -15,6 +17,7 @@ export default async function SidePanel() {
             createdAt: 'desc'
         }
     });
+}
     function formatDateToReadableString(date: Date): string {
         // Use Intl.DateTimeFormat to format the date
         const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
@@ -47,8 +50,7 @@ export default async function SidePanel() {
                         Chats
                         <span
                             className="mx-2 rounded-full bg-blue-600 px-2 py-1 text-xs text-slate-200"
-                        >6</span
-                        >
+                        >6</span>
                     </h2>
                 </div>
                 <div className="mx-2 mt-8">
@@ -78,7 +80,7 @@ export default async function SidePanel() {
                 <div
                     className="h-1/2 space-y-4 overflow-y-auto border-b border-slate-300 px-2 py-4 dark:border-slate-700"
                 >
-                    {chats.map((chat) => (
+                    {chats? chats.map((chat) => (
                         <Link href={`/c/${chat.id}`}
                             key={chat.id}
                         >
@@ -93,7 +95,7 @@ export default async function SidePanel() {
                                 <p className="text-xs text-slate-500 dark:text-slate-400">{formatDateToReadableString(chat.createdAt)}</p>
                             </button>
                         </Link>
-                    ))}
+                    )) : <div>No chats available</div>}
 
                 </div>
                 <div className="mt-auto w-full space-y-4 px-2 py-4">
