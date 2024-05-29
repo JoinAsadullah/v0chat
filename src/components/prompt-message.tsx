@@ -4,7 +4,7 @@ import { ChatContext } from '@/components/chat-context'
 import copy from 'clipboard-copy'
 import { usePathname } from 'next/navigation'
 
-export default function PromptMessage() {
+export default function PromptMessage({ userImage }: { userImage: string}) {
     const { messages } = useContext(ChatContext)
     const pathname = usePathname()
     const chatId = pathname=="/"? "" : pathname.split('/').pop()
@@ -29,8 +29,7 @@ useEffect(() => {
                         <div key={key} className="flex flex-row px-2 py-4 sm:px-4">
                             <img
                                 className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
-                                src="https://dummyimage.com/256x256/363536/ffffff&text=Y"
-                            />
+                                src={userImage}                            />
 
                             <div className="flex max-w-3xl items-center">
                                 <p>{data.content}</p>
@@ -105,7 +104,7 @@ useEffect(() => {
                             >
                                 <img
                                     className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
-                                    src="https://dummyimage.com/256x256/354ea1/ffffff&text=v0"
+                                    src="https://dummyimage.com/256x256/354ea1/ffffff&text=V0"
                                 />
 
                                 <div className="flex max-w-3xl items-center rounded-xl">

@@ -2,7 +2,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useChat } from "ai/react";
 import { usePathname, useRouter } from 'next/navigation'
-import { PrismaClient } from "@prisma/client";
 
 
 
@@ -33,15 +32,15 @@ export const ChatContext = createContext({
     input: "",
     handleInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => {},
     handleSubmit: (event: React.FormEvent<HTMLFormElement>) => {},
+    chatsUpdater: false,
 });
 
 
 export default function ChatContextProvider({children}: Readonly<{
     children: React.ReactNode;
   }>) {
+    const [chatsUpdater, setChatsUpdater] = useState<boolean>(false);
     const router = useRouter();
-
-    const prisma = new PrismaClient()
 
     const pathname = usePathname();
 
@@ -53,9 +52,10 @@ export default function ChatContextProvider({children}: Readonly<{
       }, [pathname]);
 
     async function changeURL() {
-        if (pathname === "/"&& messages.length==1) {
+        if (pathname === "/"&& messages.length<=2) {
             const lastChatId = await fetch("/api/id").then((res) => res.text());
             router.push( `/c/${lastChatId}`);
+            setChatsUpdater(!chatsUpdater);
         }
     }
 
@@ -70,7 +70,7 @@ export default function ChatContextProvider({children}: Readonly<{
 
     
     return (
-        <ChatContext.Provider value={{ messages, input, handleInputChange, handleSubmit }}>
+        <ChatContext.Provider value={{ messages, input, handleInputChange, handleSubmit, chatsUpdater }}>
             {children}
         </ChatContext.Provider>
     );

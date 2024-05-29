@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 
 
-export default async function Recent({chatId}: {chatId: string}) {
+export default async function Recent({chatId, userImage}: {chatId: string, userImage: string}) {
     const prisma = new PrismaClient()
 
         const messages = await prisma.message.findMany(
@@ -22,7 +22,7 @@ export default async function Recent({chatId}: {chatId: string}) {
                 <div className="flex flex-row px-2 py-4 sm:px-4">
                     <img
                         className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
-                        src="https://dummyimage.com/256x256/363536/ffffff&text=Y"
+                        src={userImage}
                     />
 
                     <div className="flex max-w-3xl items-center">
@@ -93,7 +93,7 @@ export default async function Recent({chatId}: {chatId: string}) {
                             >
                                 <img
                                     className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
-                                    src="https://dummyimage.com/256x256/354ea1/ffffff&text=v0"
+                                    src="https://dummyimage.com/256x256/354ea1/ffffff&text=V0"
                                 />
 
                                 <div className="flex max-w-3xl items-center rounded-xl">

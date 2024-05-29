@@ -1,22 +1,42 @@
 'use client'
 import Link from 'next/link'
-import {useState} from 'react'
-import { usePathname } from 'next/navigation'; 
+import {useState, useEffect, useContext} from 'react'
+import { usePathname } from 'next/navigation';
+import { ChatContext } from "@/components/chat-context";
 
-export default function SidePanel() {
 
-    const [chats, setChats] = useState<any[]>([]);
+
+type Chat = {
+    id: string;
+    chat_title: string;
+    createdAt: Date;
+};
+
+type SidePanelProps = {
+    session: any;
+    prechats: any[];
+};
+
+export default function SidePanel({session, prechats}: SidePanelProps) {
+
+    const [chats, setChats] = useState<any[]>(prechats);
+    const [settings, setSettings] = useState(false);
+    const [signOut, setSignOut] = useState(false);
+    const { chatsUpdater } = useContext(ChatContext)
     const pathname = usePathname()
     const chatId = pathname.split('/').pop()
+    
 
-    fetch("/api/chats")
-        .then(response => response.json())
-        .then(data => {
-            setChats(data)
-        })
-        .catch(error => {
-            console.error("Error fetching chats:", error);
-        });
+    useEffect(() => {
+        fetch("/api/chats")
+            .then(response => response.json())
+            .then(data => {
+                setChats(data)
+            })
+            .catch(error => {
+                console.error("Error fetching chats:", error);
+            });
+    }, [chatsUpdater]);
 
     function formatDateToReadableString(date: Date): string {
         // Use Intl.DateTimeFormat to format the date
@@ -34,23 +54,27 @@ export default function SidePanel() {
             >
                 <div className="flex px-4">
                     {/* Logo */}
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-7 w-7 text-blue-600"
-                        fill="currentColor"
-                        strokeWidth=""
-                        viewBox="0 0 367.18 315.83"
-                    >
-                        <path
-                        d="M153.3,274.26c-7.43,20.43-14,39-19.09,57.61a.91.91,0,0,1-.88.67h0a.91.91,0,0,1-.88-.69,588.85,588.85,0,0,0-18.16-57.59L71.7,152.33a8.8,8.8,0,0,0-8.31-5.9H38.22A8.8,8.8,0,0,0,30,158.36l78.42,206.27a14.4,14.4,0,0,0,13.45,9.27h19.75A14.38,14.38,0,0,0,155,364.77l37.32-95a.92.92,0,0,1,1.76.18c12.37,67.42,48,104,96.3,104,67.67,0,106.21-57.34,106.21-161.21,0-97.28-36.66-154.62-101-154.62-45.88,0-82,30.85-97.69,88.36m94.87,195.51c-37.6,0-62-45.12-62-124.55,0-23,2-43,5.68-59.88q1.24-5.77,2.76-11.08C249.67,109.33,269.28,90,293.2,90c42.76,0,62,49.35,62,124.54C355.23,292.59,335,341.94,292.73,341.94Z" 
-                        transform="translate(-29.41 -58.07)"
-                        ></path>
-                    </svg>
+                    <div className="mb-8 flex items-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={20}
+      height={20}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-8 w-8 text-[#6366f1]"
+    >
+      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+    </svg>
+    <h1 className="ml-2 text-xl font-bold text-[#6366f1]">V0 GPT</h1>
+  </div>
                     <h2 className="px-5 text-lg font-medium text-slate-800 dark:text-slate-200">
-                        Chats
                         <span
                             className="mx-2 rounded-full bg-blue-600 px-2 py-1 text-xs text-slate-200"
-                        >6</span>
+                        >{chats?.length}</span>
                     </h2>
                 </div>
                 <div className="mx-2 mt-8">
@@ -98,30 +122,15 @@ export default function SidePanel() {
                     )) : <div>No chats available</div>}
 
                 </div>
-                <div className="mt-auto w-full space-y-4 px-2 py-4">
-                    <button
+
+                <div className="relative mt-auto w-full space-y-4 px-2 py-4">
+                    <button onClick={() => setSignOut(!signOut)}
                         className="flex w-full gap-x-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-slate-200 focus:outline-none dark:text-slate-200 dark:hover:bg-slate-800"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6"
-                            viewBox="0 0 24 24"
-                            strokeWidth="2"
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-                            <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
-                            <path
-                                d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855"
-                            ></path>
-                        </svg>
-                        {}
+                        <img className='h-6 w-6 rounded-full' src={session.user.image}/>
+                        {session.user.name}
                     </button>
-                    <button
+                    <button onClick={() => setSettings(!settings)}
                         className="flex w-full gap-x-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-slate-200 focus:outline-none dark:text-slate-200 dark:hover:bg-slate-800"
                     >
                         <svg
@@ -142,6 +151,30 @@ export default function SidePanel() {
                         </svg>
                         Settings
                     </button>
+
+                    {signOut && (
+                        <a href="/api/auth/signout"
+                         className="absolute z-50 top-[-50px] flex w-[90%] gap-x-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-700 dark:text-slate-200 transition-colors duration-200 bg-slate-200 focus:outline-none dark:bg-slate-800"
+                        >
+                            Sign Out
+                        </a>
+                    )}
+                    {settings && (
+                        <button onClick={() => {
+                            fetch("/api/chats", {
+                                method: "DELETE",
+                            })
+                                .then(response => {console.log(response);if(response.status === 200) {setChats([]); alert("All chats deleted")} else {alert("Failed to delete chats")}})
+                                .catch(error => {
+                                    console.error("Error deleting chats:", error);
+                                });}}
+                         className="absolute z-50 top-0 flex w-[90%] gap-x-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-red-500 transition-colors duration-200 bg-slate-200 focus:outline-none dark:bg-slate-800"
+                        >
+                            Delete all chats
+                        </button>
+                    )}
+
+
                 </div>
             </div>
         </aside>
