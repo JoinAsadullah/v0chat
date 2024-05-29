@@ -17,18 +17,6 @@ useEffect(() => {
   }, [messages])
 
 
-// functionality to highlight active state of chat
-    useEffect(() => {
-        const element = document.querySelector(`#h${chatId}`) as HTMLElement;
-        if (element) {
-            element.style.backgroundColor = '#334155';
-        }
-        return () => {
-            if (element) {
-                element.style.backgroundColor = '';
-            }
-        }
-    }, [chatId])
     
 
     return (

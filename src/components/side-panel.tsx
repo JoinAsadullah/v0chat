@@ -1,23 +1,23 @@
-import {auth} from "@/auth"
-import { PrismaClient } from '@prisma/client'
+'use client'
 import Link from 'next/link'
+import {useState} from 'react'
+import { usePathname } from 'next/navigation'; 
 
-const prisma = new PrismaClient()
+export default function SidePanel() {
 
-export default async function SidePanel() {
-    var chats;
-    const session = await auth()
-    const user = session?.user;
-    if(session?.user) {
-        chats = await prisma.chat.findMany({
-        where: {
-            userId: user?.id
-        },
-        orderBy: {
-            createdAt: 'desc'
-        }
-    });
-}
+    const [chats, setChats] = useState<any[]>([]);
+    const pathname = usePathname()
+    const chatId = pathname.split('/').pop()
+
+    fetch("/api/chats")
+        .then(response => response.json())
+        .then(data => {
+            setChats(data)
+        })
+        .catch(error => {
+            console.error("Error fetching chats:", error);
+        });
+
     function formatDateToReadableString(date: Date): string {
         // Use Intl.DateTimeFormat to format the date
         const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
@@ -84,15 +84,15 @@ export default async function SidePanel() {
                         <Link href={`/c/${chat.id}`}
                             key={chat.id}
                         >
-                            <button id={`h${chat.id}`}
-                                className="flex w-full flex-col gap-y-2 rounded-lg px-3 py-2 text-left transition-colors duration-200 hover:bg-slate-200 focus:outline-none dark:hover:bg-slate-800"
+                            <button
+                                className={`"flex w-full flex-col gap-y-2 rounded-lg px-3 py-2 text-left transition-colors duration-200 hover:bg-slate-200 ${chat.id==chatId? "bg-slate-200  dark:bg-slate-800" : ""} focus:outline-none dark:hover:bg-slate-800`}
                             >
                                 <h1
                                     className="text-sm font-medium capitalize text-slate-700 dark:text-slate-200"
                                 >
                                     {chat.chat_title}
                                 </h1>
-                                <p className="text-xs text-slate-500 dark:text-slate-400">{formatDateToReadableString(chat.createdAt)}</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">{formatDateToReadableString(chat.createdAt.Stringify)}</p>
                             </button>
                         </Link>
                     )) : <div>No chats available</div>}
@@ -119,7 +119,7 @@ export default async function SidePanel() {
                                 d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855"
                             ></path>
                         </svg>
-                        {session?.user?.name}
+                        {}
                     </button>
                     <button
                         className="flex w-full gap-x-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-slate-200 focus:outline-none dark:text-slate-200 dark:hover:bg-slate-800"

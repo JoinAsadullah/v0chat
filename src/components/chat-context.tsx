@@ -53,7 +53,7 @@ export default function ChatContextProvider({children}: Readonly<{
       }, [pathname]);
 
     async function changeURL() {
-        if (pathname === "/") {
+        if (pathname === "/"&& messages.length==1) {
             const lastChatId = await fetch("/api/id").then((res) => res.text());
             router.push( `/c/${lastChatId}`);
         }
@@ -63,9 +63,8 @@ export default function ChatContextProvider({children}: Readonly<{
         changeURL();
         return void 0;
     }
-
     const { messages, input, handleInputChange, handleSubmit } = useChat(
-        { api: `/api/chat/${chatId}`, onResponse: onResponse, id: chatId },
+        { api: `/api/chat/${chatId}`, onResponse, id: chatId },
     );
 
 
@@ -73,6 +72,6 @@ export default function ChatContextProvider({children}: Readonly<{
     return (
         <ChatContext.Provider value={{ messages, input, handleInputChange, handleSubmit }}>
             {children}
-        </ChatContext.Provider> 
+        </ChatContext.Provider>
     );
 }
