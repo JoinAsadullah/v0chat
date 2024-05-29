@@ -43,9 +43,11 @@ export default function ChatContextProvider({children}: Readonly<{
 
     const prisma = new PrismaClient()
 
-    
-    const chatId = usePathname() === "/" ? "" : usePathname().split('/').pop();
     const pathname = usePathname();
+
+    
+    const chatId = pathname === "/" ? "" : pathname.split('/').pop();
+
     useEffect(() => {
         
       }, [pathname]);
