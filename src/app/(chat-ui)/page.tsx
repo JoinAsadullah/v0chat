@@ -35,7 +35,7 @@ export default function Home() {
     </div>
     <div className="bg-slate-50 dark:bg-slate-900 p-4 shadow-md transition-transform hover:scale-105 rounded-md text-slate-800 dark:text-slate-200">
       <h3 className="text-md font-md">
-        What to do with kids' art
+        What to do with kids&apos; art
       </h3>
     </div>
     <div className="bg-slate-50 dark:bg-slate-900 p-4 shadow-md transition-transform hover:scale-105 rounded-md text-slate-800 dark:text-slate-200">
@@ -58,7 +58,7 @@ export default function Home() {
   return (
     <main  className="overflow-y-scroll" >
       <div id="scroll-0" className=" md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] mx-auto">
-        <PromptMessage />
+        <PromptMessage userImage="https://dummyimage.com/256x256/354ea1/ffffff&text=YOU" />
       </div>
     </main>
   );

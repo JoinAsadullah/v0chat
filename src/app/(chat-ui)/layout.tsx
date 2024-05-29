@@ -6,7 +6,7 @@ import PromptInput from "@/components/prompt-input";
 import ChatContextProvider from "@/components/chat-context";
 import {auth} from "@/auth";
 import { PrismaClient } from "@prisma/client";
-import { LandingPage } from "@/components/landing-page";
+import LandingPage from "@/components/landing-page";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -55,7 +55,7 @@ export default async function RootLayout({
             <SidePanel session={session} prechats={prechats} />
           </div>
           <div className="min-h-svh justify-between w-full flex flex-col">
-            {session?.user? children :<> <div>No user signed in........</div> <a href="/api/auth/signin"><button type="submit">SignIn</button></a></>}
+            {children}
             <div className="w-full pr-[8px]">
               <div className="p-4 w-full md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] mx-auto">
                 <PromptInput />

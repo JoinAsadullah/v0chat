@@ -4,7 +4,7 @@ import { ChatContext } from '@/components/chat-context'
 import copy from 'clipboard-copy'
 import { usePathname } from 'next/navigation'
 
-export default function PromptMessage({ userImage }: { userImage: string}) {
+export default function PromptMessage({ userImage }: { userImage: any}) {
     const { messages } = useContext(ChatContext)
     const pathname = usePathname()
     const chatId = pathname=="/"? "" : pathname.split('/').pop()

@@ -83,7 +83,7 @@ export default function LandingPage() {
                                 </svg>
                                 <h3 className="text-2xl font-bold">Ideation</h3>
                                 <p className="text-gray-500">
-                                    Unleash your creativity with V0GPT's ideation capabilities.
+                                    Unleash your creativity with V0GPT&apos;s ideation capabilities.
                                     Generate innovative ideas, brainstorm solutions, and explore new
                                     possibilities.
                                 </p>
@@ -106,7 +106,7 @@ export default function LandingPage() {
                                 </svg>
                                 <h3 className="text-2xl font-bold">Research</h3>
                                 <p className="text-gray-500">
-                                    Leverage V0GPT's vast knowledge base to conduct thorough research,
+                                    Leverage V0GPT&apos;s vast knowledge base to conduct thorough research,
                                     gather insights, and uncover valuable information to s
                                 </p>
                             </div>
@@ -128,7 +128,7 @@ export default function LandingPage() {
                                 </svg>
                                 <h3 className="text-2xl font-bold">Development</h3>
                                 <p className="text-gray-500">
-                                    Accelerate your development process with V0GPT's coding
+                                    Accelerate your development process with V0GPT&apos;s coding
                                     capabilities. Generate code, debug issues, and optimize
                                     performance.
                                 </p>
@@ -160,7 +160,7 @@ export default function LandingPage() {
                                     Unleash Your Potential with V0GPT
                                 </h2>
                                 <p className="text-gray-500 md:text-xl">
-                                    V0GPT is designed to be your trusted AI compani
+                                    V0GPT is designed to be your trusted AI companion
                                 </p>
                                 <button className="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 inline-flex">
                                     Log In
