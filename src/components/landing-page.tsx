@@ -1,3 +1,4 @@
+
 export default function LandingPage() {
     return (
 
@@ -26,9 +27,10 @@ export default function LandingPage() {
                         </svg>
                         <span className="ml-2 text-lg font-medium">V0GPT</span>
                     </a>
+                    <a href="/api/auth/signin">
                     <button className="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 hidden md:inline-flex">
                         Log In
-                    </button>
+                    </button></a>
                 </header>
                 <main className="flex-1 flex flex-col items-center justify-center px-4 md:px-6 lg:px-8 py-12 md:py-24 lg:py-32">
                     <div className="max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -41,9 +43,6 @@ export default function LandingPage() {
                                 of tasks, from research and analysis to creative writing and
                                 problem-solving.
                             </p>
-                            <button className="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 inline-flex">
-                                Log In
-                            </button>
                         </div>
                         <div>
                             <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg p-4 shadow-lg">
@@ -149,9 +148,6 @@ export default function LandingPage() {
                                             V0GPT is designed to be your trusted AI companion, helping you
                                             tackle a wide range of tasks and unlock new possibilities.
                                         </p>
-                                        <button className="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 inline-flex mt-4">
-                                            Log In
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -162,9 +158,6 @@ export default function LandingPage() {
                                 <p className="text-gray-500 md:text-xl">
                                     V0GPT is designed to be your trusted AI companion
                                 </p>
-                                <button className="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 inline-flex">
-                                    Log In
-                                </button>
                             </div>
                         </div>
                     </div>
