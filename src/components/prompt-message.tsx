@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation'
 
 export default function PromptMessage() {
     const { messages } = useContext(ChatContext)
-    const chatId = usePathname()=="/"? "" : usePathname().split('/').pop()
+    const pathname = usePathname()
+    const chatId = pathname=="/"? "" : pathname.split('/').pop()
     const [iconStates, setIconStates] = useState({ like: false, dislike: false, copy: false })
 
 // functionality to scroll to bottom of messages
