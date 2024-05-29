@@ -27,7 +27,7 @@ export default async function RootLayout({
   const session = await auth();
 
   if(!session) {
-    return <html className="" lang="en"><body><LandingPage/><body/></html>
+    return <html className="" lang="en"><body><LandingPage/></body></html>
   }
   
   
