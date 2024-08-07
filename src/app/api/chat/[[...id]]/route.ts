@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { OpenAIStream, StreamingTextResponse, streamData } from 'ai';
+import { OpenAIStream, StreamingTextResponse } from 'ai';
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/auth";
 import { URL } from 'url';
