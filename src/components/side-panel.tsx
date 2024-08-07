@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import {useState, useEffect, useContext} from 'react'
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ChatContext } from "@/components/chat-context";
 
 
@@ -25,18 +25,10 @@ export default function SidePanel({session, prechats}: SidePanelProps) {
     const { chatsUpdater } = useContext(ChatContext)
     const pathname = usePathname()
     const chatId = pathname.split('/').pop()
-    
+    const router = useRouter()
 
-    useEffect(() => {
-        fetch("/api/chats")
-            .then(response => response.json())
-            .then(data => {
-                setChats(data)
-            })
-            .catch(error => {
-                console.error("Error fetching chats:", error);
-            });
-    }, [chatsUpdater]);
+
+
 
     function formatDateToReadableString(date: Date): string {
         // Use Intl.DateTimeFormat to format the date
@@ -55,20 +47,25 @@ export default function SidePanel({session, prechats}: SidePanelProps) {
                 <div className="flex px-4">
                     {/* Logo */}
                     <div className="mb-8 flex items-center">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={20}
-      height={20}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-8 w-8 text-[#6366f1]"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width={30}
+                            height={30}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#6366f1"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className=""
+                        >
+                            <path d="M12 8V4H8" />
+                            <rect width={16} height={12} x={4} y={8} rx={2} />
+                            <path d="M2 14h2" />
+                            <path d="M20 14h2" />
+                            <path d="M15 13v2" />
+                            <path d="M9 13v2" />
+                        </svg>
     <h1 className="ml-2 text-xl font-bold text-[#6366f1]">V0 GPT</h1>
   </div>
                     <h2 className="px-5 text-lg font-medium text-slate-800 dark:text-slate-200">
@@ -123,14 +120,16 @@ export default function SidePanel({session, prechats}: SidePanelProps) {
 
                 </div>
 
-                <div className="relative mt-auto w-full space-y-4 px-2 py-4">
-                    <button onClick={() => setSignOut(!signOut)}
+                <div className="relative mt-auto w-full space-y-4 px-2 py-4"
+                    onMouseLeave={(e) => { e.stopPropagation(); setTimeout(()=>{setSettings(false); setSignOut(false);},200); }}
+                >
+                    <button onMouseEnter={(e) => { e.stopPropagation(); setSignOut(true)}}
                         className="flex w-full gap-x-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-slate-200 focus:outline-none dark:text-slate-200 dark:hover:bg-slate-800"
                     >
                         <img className='h-6 w-6 rounded-full' src={session.user.image}/>
                         {session.user.name}
                     </button>
-                    <button onClick={() => setSettings(!settings)}
+                    <button onMouseEnter={(e) => { e.stopPropagation(); setSettings(true)}}
                         className="flex w-full gap-x-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-slate-200 focus:outline-none dark:text-slate-200 dark:hover:bg-slate-800"
                     >
                         <svg
@@ -160,11 +159,12 @@ export default function SidePanel({session, prechats}: SidePanelProps) {
                         </a>
                     )}
                     {settings && (
-                        <button onClick={() => {
+                        <button onClick={(e) => {
+                           
                             fetch("/api/chats", {
                                 method: "DELETE",
                             })
-                                .then(response => {console.log(response);if(response.status === 200) {setChats([]); alert("All chats deleted")} else {alert("Failed to delete chats")}})
+                                .then(response => {console.log(response);if(response.status === 200) {setChats([]); alert("All chats deleted"); router.push('/')} else {alert("Failed to delete chats")}})
                                 .catch(error => {
                                     console.error("Error deleting chats:", error);
                                 });}}

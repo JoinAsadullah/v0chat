@@ -6,6 +6,8 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+// Auth models
  
 model User {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
@@ -80,6 +82,11 @@ model Authenticator {
  
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+
+
+
+// Additional models to store chats and messages
 
 model Chat {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId

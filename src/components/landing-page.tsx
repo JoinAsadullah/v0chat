@@ -3,7 +3,7 @@ export default function LandingPage() {
     return (
 
         <>
-            <div className="flex flex-col min-h-[100dvh]">
+            <div className="flex flex-col min-h-[100dvh] bg-slate-50 dark:border-slate-700 dark:bg-slate-900">
                 <header className="px-4 lg:px-6 h-14 flex items-center justify-between">
                     <a className="flex items-center" href="#">
                         <svg
@@ -28,13 +28,13 @@ export default function LandingPage() {
                         <span className="ml-2 text-lg font-medium">V0GPT</span>
                     </a>
                     <a href="/api/auth/signin">
-                    <button className="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 hidden md:inline-flex">
+                    <button className="flex items-center justify-center rounded-md bg-[#f0e6ff] px-4 py-2 text-sm font-medium text-[#4b2e83] shadow transition-colors hover:bg-[#f0e6ff]/90 focus:outline-none focus:ring-1 focus:ring-[#f0e6ff] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#4b2e83] dark:text-[#f0e6ff] dark:hover:bg-[#4b2e83]/90 dark:focus:ring-[#4b2e83]">
                         Log In
                     </button></a>
                 </header>
-                <main className="flex-1 flex flex-col items-center justify-center px-4 md:px-6 lg:px-8 py-12 md:py-24 lg:py-32">
+                <main className="flex-1 flex flex-col items-center justify-center px-4 md:px-6 lg:px-8 ">
                     <div className="max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        <div className="space-y-4">
+                        <div className="space-y-4 my-12 md:my-24 lg:my-32">
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
                                 Unlock the Power of AI with V0GPT
                             </h1>
@@ -44,24 +44,12 @@ export default function LandingPage() {
                                 problem-solving.
                             </p>
                         </div>
-                        <div>
-                            <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg p-4 shadow-lg">
-                                <div className="bg-white dark:bg-gray-900 rounded-lg p-6">
-                                    <h2 className="text-2xl font-bold mb-4">
-                                        AI-Powered Capabilities
-                                    </h2>
-                                    <ul className="space-y-2 text-gray-500 dark:text-gray-400">
-                                        <li>Ideation and Brainstorming</li>
-                                        <li>Thorough Research and Insights</li>
-                                        <li>Accelerated Development and Optimization</li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <div className="max-md:hidden box-border w-ful h-full bg-contain bg-no-repeat bg-center space-y-4 bg-[url('/aihand.png')] my-12 md:my-24 lg:my-32">
                         </div>
                     </div>
                 </main>
                 <section className="bg-gray-100 dark:bg-gray-800 py-12 md:py-24 lg:py-32">
-                    <div className="container px-4 md:px-6 lg:px-8">
+                    <div className="mx-[auto] container px-4 md:px-6 lg:px-8">
                         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             <div className="space-y-4">
                                 <svg
@@ -135,23 +123,12 @@ export default function LandingPage() {
                         </div>
                     </div>
                 </section>
-                <section className="py-12 md:py-24 lg:py-32">
-                    <div className="container px-4 md:px-6 lg:px-8">
+                <section className="">
+                    <div className="container mx-[auto] px-4 md:px-6 lg:px-8">
                         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                            <div>
-                                <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg p-4 shadow-lg">
-                                    <div className="bg-white dark:bg-gray-900 rounded-lg p-6">
-                                        <h2 className="text-2xl font-bold mb-4">
-                                            Unlock Your Potential
-                                        </h2>
-                                        <p className="text-gray-500 dark:text-gray-400">
-                                            V0GPT is designed to be your trusted AI companion, helping you
-                                            tackle a wide range of tasks and unlock new possibilities.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="space-y-4">
+                        <div className="max-md:hidden w-ful h-[-webkit-fill-available] bg-contain bg-no-repeat bg-center space-y-4 bg-[url('/brain1.webp')] my-12 md:my-24 lg:my-32">
+                        </div>
+                            <div className="space-y-4 py-12 md:py-24 lg:py-32">
                                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
                                     Unleash Your Potential with V0GPT
                                 </h2>

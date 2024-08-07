@@ -1,7 +1,7 @@
 'use client'
 import { useState, useContext, useRef, useEffect } from "react";
 import Textarea from 'react-textarea-autosize'
-import { ChatContext } from "@/components/chat-context"; 
+import { ChatContext } from "@/components/chat-context";
 
 
 
@@ -11,7 +11,7 @@ export default function PromptInput() {
 
     useEffect(() => {
         const handleKeyPress = (event:KeyboardEvent) => {
-          if (event.key === 'Enter'&&event.shiftKey===false&&window.screen.width>640) {
+          if (event.key === 'Enter'&&event.shiftKey===false) {
             event.preventDefault();
             formRef.current?.requestSubmit();
           }

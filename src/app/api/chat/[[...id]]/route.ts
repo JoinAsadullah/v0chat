@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { OpenAIStream, StreamingTextResponse } from 'ai';
+import { OpenAIStream, StreamingTextResponse, streamData } from 'ai';
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/auth";
 import { URL } from 'url';
@@ -10,7 +10,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-//export const runtime = 'edge';
+//export const runtime = 'edge'; // Restrain to use edge functions due to prisma limitation to support edge runtime.
 
 export async function POST(req: Request, res: Response) {
   const { messages } = await req.json();
@@ -100,6 +100,10 @@ export async function POST(req: Request, res: Response) {
     },
 
   });
-  
+
   return new StreamingTextResponse(stream);
+
+  //hint   return new StreamingTextResponse(stream,{status: 200,    headers: { referer: "referer" },});
+  // https://sdk.vercel.ai/docs/reference/stream-helpers/streaming-text-response#init-status
+  // https://sdk.vercel.ai/docs/reference/ai-sdk-ui/use-chat#returns
 }

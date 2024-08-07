@@ -51,7 +51,7 @@ export default async function RootLayout({
       <ChatContextProvider>
       <body className={`h-svh relative bg-slate-200 dark:bg-slate-800 ${inter.className}`}>
         <div className="flex max-h-svh">
-          <div className="">
+          <div className="max-md:hidden">
             <SidePanel session={session} prechats={prechats} />
           </div>
           <div className="min-h-svh justify-between w-full flex flex-col">
