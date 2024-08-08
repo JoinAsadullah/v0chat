@@ -2,9 +2,12 @@
 import PromptMessage from "@/components/prompt-message"
 import { ChatContext } from "@/components/chat-context"
 import { useContext } from "react";
+import { useSession } from "next-auth/react"
 
 export default function Home() {
   const { messages } = useContext(ChatContext)
+  const session = useSession()
+  const image = session?.data?.user?.image;
 
   if (messages.length === 0) {
     return (
@@ -17,7 +20,7 @@ export default function Home() {
                             height={40}
                             viewBox="0 0 24 24"
                             fill="none"
-                            stroke="#6366f1"
+                            stroke="#fff"
                             strokeWidth={3}
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -30,7 +33,7 @@ export default function Home() {
                             <path d="M15 13v2" />
                             <path d="M9 13v2" />
                         </svg>
-            <h1 className="ml-2 text-3xl font-bold text-[#6366f1]">V0 GPT</h1>
+            <h1 className="ml-2 text-3xl font-bold text-[#fff]">V0 GPT</h1>
           </div>
           <div className="grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-4">
             <div className="bg-slate-50 dark:bg-slate-900 p-4 shadow-md transition-transform hover:scale-105 rounded-md text-slate-800 dark:text-slate-200">
@@ -63,7 +66,7 @@ export default function Home() {
     return (
       <main className="overflow-y-scroll" >
         <div id="scroll-0" className=" md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] mx-auto">
-          <PromptMessage userImage="https://dummyimage.com/256x256/354ea1/ffffff&text=YOU" />
+          <PromptMessage userImage={image}/>
         </div>
       </main>
     );

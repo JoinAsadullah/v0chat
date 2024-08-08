@@ -1,12 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/prisma";
 import { auth } from "@/auth";
-const prisma = new PrismaClient();
 
 
 export async function GET(req: Request, res: Response) {
     const session = await auth();
 
-    const lastChat = await prisma.chat.findMany({
+    const lastChat = await prisma?.chat.findMany({
         where: {
             userId: session?.user?.id,
         },

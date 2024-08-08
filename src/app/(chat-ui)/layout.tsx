@@ -5,8 +5,9 @@ import SidePanel from "@/components/side-panel";
 import PromptInput from "@/components/prompt-input";
 import ChatContextProvider from "@/components/chat-context";
 import {auth} from "@/auth";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/prisma";
 import LandingPage from "@/components/landing-page";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,9 +30,6 @@ export default async function RootLayout({
   if(!session) {
     return <html className="" lang="en"><body><LandingPage/></body></html>
   }
-  
-  
-  const prisma = new PrismaClient();
 
 
 
@@ -55,7 +53,9 @@ export default async function RootLayout({
             <SidePanel session={session} prechats={prechats} />
           </div>
           <div className="min-h-svh justify-between w-full flex flex-col">
-            {children}
+            <SessionProvider session={session}>
+              {children}
+            </SessionProvider> 
             <div className="w-full pr-[8px]">
               <div className="p-4 w-full md:max-w-3xl lg:max-w-[40rem] xl:max-w-[48rem] mx-auto">
                 <PromptInput />

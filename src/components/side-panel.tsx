@@ -51,7 +51,7 @@ export default function SidePanel({session, prechats}: SidePanelProps) {
                             height={30}
                             viewBox="0 0 24 24"
                             fill="none"
-                            stroke="#6366f1"
+                            stroke="#fff"
                             strokeWidth={2}
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -64,7 +64,7 @@ export default function SidePanel({session, prechats}: SidePanelProps) {
                             <path d="M15 13v2" />
                             <path d="M9 13v2" />
                         </svg>
-    <h1 className="ml-2 text-xl font-bold text-[#6366f1]">V0 GPT</h1>
+    <h1 className="ml-2 text-xl font-bold text-[#fff]">V0 GPT</h1>
   </div>
                     <h2 className="px-5 text-lg font-medium text-slate-800 dark:text-slate-200">
                         <span

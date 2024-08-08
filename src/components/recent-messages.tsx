@@ -1,10 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from "@/prisma"
 
 
 export default async function Recent({chatId, userImage}: {chatId: string, userImage: any}) {
-    const prisma = new PrismaClient()
 
-        const messages = await prisma.message.findMany(
+        const messages = await prisma?.message.findMany(
             {
                 where: {
                     chatId: chatId
@@ -17,7 +16,7 @@ export default async function Recent({chatId, userImage}: {chatId: string, userI
                 <div
             className="flex-1 rounded-xl bg-slate-200 p-4 text-sm leading-6 text-slate-900 dark:bg-slate-800 dark:text-slate-300 sm:text-base sm:leading-7"
         >
-        {messages.map((message) =>(
+        {messages?.map((message) =>(
             <span key={message.id}>
                 <div className="flex flex-row px-2 py-4 sm:px-4">
                     <img

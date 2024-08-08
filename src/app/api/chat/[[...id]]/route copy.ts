@@ -1,10 +1,9 @@
 import OpenAI from 'openai';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/prisma";
 import { auth } from "@/auth";
 import { URL } from 'url';
 
-const prisma = new PrismaClient();
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
