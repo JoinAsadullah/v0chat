@@ -22,13 +22,13 @@ export async function DELETE(req: Request, res: Response) {
 
     console.log("Deleting chats")
     try {
-        const deleteMessages = await prisma.message.deleteMany({
+        const deleteMessages = await prisma?.message.deleteMany({
             where: {
               userId: session?.user?.id,
             },
           });
           
-          const deleteChat = await prisma.chat.deleteMany({
+          const deleteChat = await prisma?.chat.deleteMany({
             where: {
               userId: session?.user?.id,
             },

@@ -44,6 +44,14 @@ export async function POST(req: Request, res: Response) {
     }
   )
 
+  const totalMessages = await prisma?.message.count({where: {
+    userId: userId
+},})
+
+  if(totalMessages ?? 0 > 15){
+    return new Response('You have reached the limit of messages', { status: 403 });
+  }
+
   const formated = recentMessages?.reverse().map((message) => {
     return [
       {
@@ -55,11 +63,11 @@ export async function POST(req: Request, res: Response) {
         content: message.assistant,
       },
     ];
-  });
-
-  const message = [...formated?.flatMap(arr => arr), ...messages].slice(-7);
-  const data = new StreamData();
-  data.append({chatId:chatId});
+  }) ?? [];
+  
+  const message = [...formated.flatMap(arr => arr), ...messages].slice(-7);
+  // const data = new StreamData();
+  // data.append({chatId:chatId});
 
   const result = await streamText({
     model: openai('gpt-4o-mini'),
@@ -74,7 +82,7 @@ export async function POST(req: Request, res: Response) {
       });
 
 
-      data.close();
+      //data.close();
     },
     
     messages:message,

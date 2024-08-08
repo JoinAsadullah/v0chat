@@ -33,7 +33,7 @@ export default async function RootLayout({
 
 
 
-  const prechats = await prisma.chat.findMany(
+  const prechats = await prisma?.chat.findMany(
     {
         where: {
             userId: session?.user?.id || ""
@@ -42,7 +42,7 @@ export default async function RootLayout({
           createdAt: 'desc'
         }
     }
-  );
+  ) || [];
 
   return (
     <html className="" lang="en">
