@@ -24,6 +24,7 @@ export default function SidePanel({session, prechats}: SidePanelProps) {
     const pathname = usePathname()
     const chatId = pathname.split('/').pop()
     const router = useRouter()
+    const [aside, setAside] = useState(false);
 
 
 
@@ -37,10 +38,33 @@ export default function SidePanel({session, prechats}: SidePanelProps) {
         return formatter.format(date);
     }
 
+    function handleClick() {
+        setAside(!aside);
+    }
+
     return (
         <aside className="">
+            <div className="fixed top-4 right-4 z-50 md:hidden">
+                <button onClick={handleClick} className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 rounded-full">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <line x1="4" x2="20" y1="12" y2="12" />
+                        <line x1="4" x2="20" y1="6" y2="6" />
+                        <line x1="4" x2="20" y1="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
             <div
-                className="flex h-svh w-60 flex-col bg-slate-50 pt-8 dark:border-slate-700 dark:bg-slate-900 sm:w-64"
+                className={`${aside? "":"max-md:hidden" } flex h-svh w-60 flex-col bg-slate-50 pt-8 dark:border-slate-700 dark:bg-slate-900 sm:w-64`}
             >
                 <div className="flex px-4">
                     {/* Logo */}
