@@ -60,9 +60,8 @@ export default function ChatContextProvider({children}: Readonly<{   //it is con
                 ref.current = chatId;
             },
             onFinish() {
-                if (pathname === "/" && messages.length < 2) {
+                if (pathname == "/" || pathname == "" && messages.length < 2) {
                     router.push(`/c/${ref.current}`);
-
                 }
             }
         },

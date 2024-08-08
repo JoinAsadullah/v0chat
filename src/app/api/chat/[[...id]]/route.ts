@@ -47,10 +47,12 @@ export async function POST(req: Request, res: Response) {
   const totalMessages = await prisma?.message.count({where: {
     userId: userId
 },})
-
-  if(totalMessages ?? 0 > 15){
+if(totalMessages){
+  if(totalMessages > 30){
     return new Response('You have reached the limit of messages', { status: 403 });
   }
+}
+  
 
   const formated = recentMessages?.reverse().map((message) => {
     return [
