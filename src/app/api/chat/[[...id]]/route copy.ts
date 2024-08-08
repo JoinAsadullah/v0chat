@@ -1,10 +1,14 @@
-import { openai } from '@ai-sdk/openai';
-import { streamText, StreamData } from 'ai';
+import OpenAI from 'openai';
+import { OpenAIStream, StreamingTextResponse } from 'ai';
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@/auth";
 import { URL } from 'url';
 
 const prisma = new PrismaClient();
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 //export const runtime = 'edge'; // Restrain to use edge functions due to prisma limitation to support edge runtime.
 
@@ -60,31 +64,44 @@ export async function POST(req: Request, res: Response) {
   });
 
   const message = [...formated.flatMap(arr => arr), ...messages].slice(-7);
-  const data = new StreamData();
-  data.append({chatId:chatId});
 
-  const result = await streamText({
-    model: openai('gpt-4o-mini'),
-    onFinish: async ({ text, toolCalls, toolResults, finishReason, usage })=> {
-      await prisma.message.create({ 
-        data: {
-          prompt: messages[messages.length - 1].content,
-          assistant: text,
-          chatId: chatId,
-          userId: userId
-        },
-      });
-
-
-      data.close();
-    },
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
+	  max_tokens: 150,
+    stream: true,
     messages:message,
-    maxTokens: 100,
+  });
+  // Convert the response into a friendly text-stream
+  const stream = OpenAIStream(response, {
+    onStart: async () => {
+      // This callback is called when the stream starts
+      // You can use this to save the prompt to your database
 
+
+      },
+    // onToken: async (token: string) => {
+    //   // This callback is called for each token in the stream
+    //   // You can use this to debug the stream or save the tokens to your database
+    //   console.log(token);
+    // },
+    onCompletion: async (completion: string) => {
+      // This callback is called when the stream completes
+      // You can use this to save the final completion to your database
+      //await saveCompletionToDatabase(completion);
+    await prisma.message.create({ 
+      data: {
+        prompt: messages[messages.length - 1].content,
+        assistant: completion,
+        chatId: chatId,
+        userId: userId
+      },
+    });
+
+    },
 
   });
 
-  return result.toDataStreamResponse({ data });
+  return new StreamingTextResponse(stream);
 
   //hint   return new StreamingTextResponse(stream,{status: 200,    headers: { referer: "referer" },});
   // https://sdk.vercel.ai/docs/reference/stream-helpers/streaming-text-response#init-status

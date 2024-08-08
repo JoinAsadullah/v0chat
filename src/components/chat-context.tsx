@@ -32,14 +32,12 @@ export const ChatContext = createContext({
     input: "",
     handleInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => {},
     handleSubmit: (event: React.FormEvent<HTMLFormElement>) => {},
-    chatsUpdater: false,
 });
 
 
 export default function ChatContextProvider({children}: Readonly<{
     children: React.ReactNode;
   }>) {
-    const [chatsUpdater, setChatsUpdater] = useState<boolean>(false);
     const router = useRouter();
 
     const pathname = usePathname();
@@ -47,30 +45,30 @@ export default function ChatContextProvider({children}: Readonly<{
     
     const chatId = pathname === "/" ? "" : pathname.split('/').pop();
 
-    useEffect(() => {
-        
-      }, [pathname]);
 
-    async function changeURL() {
+    const { messages, input, handleInputChange, handleSubmit, data: data1 } = useChat( 
+        { api: `/api/chat/${chatId}`},
+    );
+
+useEffect(() => {
+    if (data1) {
+        console.log(data1?.[0]?.chatId)
+    }
+}, [data1]);
+
+
+      function changeURL() {
         if (pathname === "/"&& messages.length<=2) {
-            const lastChatId = await fetch("/api/id").then((res) => res.text());
-            router.push( `/c/${lastChatId}`);
-            setChatsUpdater(!chatsUpdater);
+            router.push( `/c/${chatId}`);
         }
     }
 
-    function onResponse() {
-        changeURL();
-        return void 0;
-    }
-    const { messages, input, handleInputChange, handleSubmit } = useChat(
-        { api: `/api/chat/${chatId}`, onResponse, id: chatId },
-    );
 
 
-    
+
+
     return (
-        <ChatContext.Provider value={{ messages, input, handleInputChange, handleSubmit, chatsUpdater }}>
+        <ChatContext.Provider value={{ messages, input, handleInputChange, handleSubmit}}>
             {children}
         </ChatContext.Provider>
     );

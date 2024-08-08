@@ -16,7 +16,6 @@ useEffect(() => {
     element?.scrollIntoView({ behavior: 'smooth', block: 'end'});
   }, [messages])
 
-
     
 
     return (

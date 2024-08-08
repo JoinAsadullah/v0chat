@@ -2,7 +2,6 @@
 import Link from 'next/link'
 import {useState, useEffect, useContext} from 'react'
 import { usePathname, useRouter } from 'next/navigation';
-import { ChatContext } from "@/components/chat-context";
 
 
 
@@ -22,7 +21,6 @@ export default function SidePanel({session, prechats}: SidePanelProps) {
     const [chats, setChats] = useState<any[]>(prechats);
     const [settings, setSettings] = useState(false);
     const [signOut, setSignOut] = useState(false);
-    const { chatsUpdater } = useContext(ChatContext)
     const pathname = usePathname()
     const chatId = pathname.split('/').pop()
     const router = useRouter()
